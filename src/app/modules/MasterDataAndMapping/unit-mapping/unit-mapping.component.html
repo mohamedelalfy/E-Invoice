@@ -1,0 +1,98 @@
+<div class="container mb-5">
+  <div class="text-center">
+    <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
+      <i class="fas fa-plus"></i> 
+      {{'general.addNewRecord' | translate }}
+    </button>
+    <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord(template)">
+      <i class="fas fa-edit"></i>
+       {{'general.updateRecord' | translate }}
+    </button>
+  </div>
+</div>
+<div class="grid">
+  <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [rowData]="rowData | async "
+    [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" animateRows
+    [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+    (rowDoubleClicked)="onrowDoubleClicked($event)" pagination>
+  </ag-grid-angular>
+</div>
+
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog" [style.display]=" 'block'">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle">{{title| translate }}</h6>
+          <!-- <button type="button" class="close" (click)="hide()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="hide()"></button>
+        </div>
+        <div class="modal-body">
+          <form #Items="ngForm" (ngSubmit)="onSubmit(Items)">
+            <div class="row">
+              <!-- start required -->
+              <div class="form-control-plaintext">
+                <input #unitSerial="ngModel" type="number" data-dismiss="modal" class="form-control input-sm"
+                  name="unitSerial" id="unitSerial" [(ngModel)]="objServ.SUnitMapping.unitSerial"
+                  placeholder="unit Code" hidden required>
+                <div class="text-danger" *ngIf="isSubmitted && unitSerial.invalid && unitSerial.errors?.required ">
+                  <small>{{'required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End required -->
+              <!-- start ERP Unit Code -->
+              <div class="form-control-plaintext">
+                <label for="erpUnitCode">
+                  <span class="badge badge-pill badge-light">
+                    ERP Unit Code
+                  </span>
+                </label>
+                <input #erpUnitCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                  name="erpUnitCode" id="erpUnitCode" [(ngModel)]="objServ.SUnitMapping.erpUnitCode"
+                  placeholder="erpUnitCode" required>
+                <div class="text-danger" *ngIf="isSubmitted && erpUnitCode.invalid && erpUnitCode.errors?.required ">
+                  <small>{{'required' | translate}}</small>
+                </div>
+              </div>
+              <!-- end ERP Unit Code -->
+              <!-- start e-Invoice Unit Name -->
+              <div class="form-control-plaintext">
+                <label for="eInvoiceUnitCode">
+                  <span class="badge badge-pill badge-light">
+                    e-Invoice Unit Name
+                  </span>
+                </label>
+                <select #eInvoiceUnitCode="ngModel" class="form-select form-select-lg mb-3"
+                  [(ngModel)]="objServ.SUnitMapping.eInvoiceUnitCode" name="eInvoiceUnitCode" id="eInvoiceUnitCode"
+                  (change)="onChangeSelection(eInvoiceCurrencyCode.value)" required>
+                  <option *ngFor="let option of eInvoiceCurrencyList" value={{option.unitCode}}>
+                    {{option.unitEngName}}
+                  </option>
+                </select>
+              </div>
+              <!-- End e-Invoice Unit Name -->
+
+              <div class="col text-center">
+                <button class="btn btn-success btn-sm mx-3" data-style="zoom-in">
+                  <i class="fas fa-save mx-2"></i>
+                  {{'FormData.Save' | translate}}
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" *ngIf="Update"
+                  (click)="Delete(objServ.SUnitMapping.unitSerial)">
+                  <i class="fas fa-trash-alt mx-2"></i>
+                  {{'FormData.Delete' | translate}}
+                </button>
+              </div>
+            </div>
+            <!-- .row -->
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

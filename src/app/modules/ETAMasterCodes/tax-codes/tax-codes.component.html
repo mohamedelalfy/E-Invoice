@@ -1,0 +1,114 @@
+<div class="container text-center mb-5">
+  <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
+    <i class="fas fa-plus"></i> 
+    {{'general.addNewRecord' | translate }}
+  </button>
+  <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord(template)">
+    <i class="fas fa-edit"></i>
+    {{'general.updateRecord' | translate }}
+  </button>
+</div>
+
+  <div class="grid">
+    <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [rowData]="rowData | async "
+      [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" animateRows
+      [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+      (rowDoubleClicked)="onrowDoubleClicked($event)" pagination>
+    </ag-grid-angular>
+</div>
+
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog" [style.display]=" 'block'">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle">
+            {{'general.add'| translate}}
+          </h6>
+          <button type="button" class="btn-close" (click)="hide()" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #Items="ngForm" (ngSubmit)="onSubmit(Items)">
+            
+            <div class="row mb-5">
+              <!-- start Code -->
+              <div class="col-md-6">
+                <label  for="taxCode"><span class="badge badge-pill badge-light">
+                  {{'FormData.Code' | translate}}
+                </span>
+              </label>
+              <input #taxCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="taxCode"
+              id="taxCode" [(ngModel)]="STaxServ.SITax.taxCode" [readonly]="Update"
+              placeholder="{{'FormData.Code' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && taxCode.invalid && taxCode.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End Code -->
+
+              
+              <!-- start Taxable -->
+              <div class="col-md-6 mt-5">
+                <input #name="ngModel" type="checkbox" data-dismiss="modal" class="form-check-input"
+                  name="taxableYN" id="taxableYN" [(ngModel)]="STaxServ.SITax.taxableYN">
+                <label  for="taxableYN"><span 
+                  class="badge badge-pill badge-light">
+                  {{'FormData.Taxable' | translate}}
+                </span>
+                </label>
+              </div>
+                <!-- End Taxable -->
+
+              <div class="col-md-6">
+                <label  for="taxName">
+                  <span class="badge badge-pill badge-light">{{'FormData.ArName' | translate}}</span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="taxName"
+                  id="taxName" [(ngModel)]="STaxServ.SITax.taxName" placeholder="{{'FormData.ArName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label  for="Latname">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.EnName' | translate}}
+                  </span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="taxEngName"
+                  id="taxEngName" [(ngModel)]="STaxServ.SITax.taxEngName" 
+                  placeholder="{{'FormData.EnName' | translate}}"
+                  required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+            </div>
+            <!-- .row -->
+
+            <div class="row">
+              <div class="col text-center">
+                <!-- Save -->
+                <button class="btn btn-success btn-sm mx-3" data-style="zoom-in">
+                  <i class="fas fa-save mx-2"></i> 
+                  {{'FormData.Save' | translate}}
+                </button>
+                <!-- Delete -->
+                <button type="button" class="btn btn-danger btn-sm" *ngIf="Update"
+                  (click)="Delete(STaxServ.SITax.taxCode)">
+                  <i class="fas fa-trash-alt"></i>
+                  {{'FormData.Delete' | translate}}
+                </button>
+
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

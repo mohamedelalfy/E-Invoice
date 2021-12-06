@@ -1,0 +1,35 @@
+<!-- <ngx-spinner></ngx-spinner> -->
+
+<div class="container">
+
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label class="mr-5" for="fromDate">
+        {{'FormData.FromDate' | translate}}
+      </label>
+      <input type="date" class="form-control" id="fromDate" [(ngModel)]="fromday" name="fromDate" placeholder="today">
+    </div>
+    <div class="form-group col-md-6">
+      <label class="mr-5" for="fromDate">
+        {{'FormData.toDate' | translate}}
+      </label>
+      <input type="date" class="form-control" id="fromDate" [(ngModel)]="today" name="fromDate" placeholder="today">
+    </div>
+  </div>
+</div>
+
+<div class="container" [hidden]="insert">
+    <div class="text-center my-5">
+        <button class="btn btn-success btn-sm" type="button" id="btn" (click)="FilterDate()"> 
+            {{'FormData.ShowReport' | translate}}
+        </button>
+    </div>
+
+  <div class="grid">
+    <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [rowData]="rowData | async "
+      [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" animateRows
+      [rowSelection]="rowSelection2" (gridReady)="onGridReady($event)" [frameworkComponents]="frameworkComponents"
+      pagination>
+    </ag-grid-angular>
+  </div>
+</div>

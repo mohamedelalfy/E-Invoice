@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="text-center mb-5">
+    <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
+      <i class="fas fa-plus"></i>
+      {{'general.addNewRecord' | translate }}
+    </button>
+    <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord(template)">
+      <i class="fas fa-edit"></i>
+      {{'general.updateRecord' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+    <ag-grid-angular #agGrid style="width: 100%; height: 500px;" class="ag-theme-alpine" [rowData]="rowData | async "
+      [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" animateRows
+      [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+      (rowDoubleClicked)="onrowDoubleClicked($event)" pagination>
+    </ag-grid-angular>
+</div>
+
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog" [style.display]=" 'block'">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle">{{title| translate }}</h6>
+          <!-- <button type="button" class="close" (click)="hide()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="hide()"></button>
+
+        </div>
+        <div class="modal-body">
+          <form #Items="ngForm" (ngSubmit)="onSubmit(Items)">
+
+            <div class="row">
+                <!-- start ERP Item Code -->
+                <div class="form-control-plaintext">
+                    <label  for="erpItemCode">
+                      <span class="badge badge-pill badge-light">
+                        {{'FormData.ERPItemCode' | translate}}
+                      </span>
+                    </label>
+                    <input #erpItemCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                      name="erpItemCode" id="erpItemCode" [(ngModel)]="objServ.SIitemMapping.erpItemCode"
+                      placeholder="{{'FormData.ERPItemCode' | translate}}" [readonly]="mode===0" required>
+                    <div class="text-danger" *ngIf="isSubmitted && erpItemCode.invalid && erpItemCode.errors?.required ">
+                      <small>{{'general.required' | translate}}</small>
+                    </div>
+                  </div>
+                <!-- End ERP Item Code -->
+              <!-- start ERP Item Arabic Name -->
+              <div class="form-control-plaintext">
+                <label  for="erpItemName">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.ERPItemArName' | translate}}
+                  </span>
+                </label>
+                <input #erpItemName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                  name="erpItemName" id="erpItemName" [(ngModel)]="objServ.SIitemMapping.erpItemName"
+                  placeholder="{{'FormData.ERPItemArName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && erpItemName.invalid && erpItemName.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+
+              </div>
+              <!-- End ERP Item Arabic Name -->
+              <!-- start ERP Item English Name -->
+              <div class="form-control-plaintext">
+                <label for="erpItemEngName">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.ERPItemEnName' | translate}}
+                  </span>
+                </label>
+                <input #erpItemEngName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                  name="erpItemEngName" id="erpItemEngName" [(ngModel)]="objServ.SIitemMapping.erpItemEngName"
+                  placeholder="{{'FormData.ERPItemEnName' | translate}}" required>
+                <div class="text-danger"
+                  *ngIf="isSubmitted && erpItemEngName.invalid && erpItemEngName.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End ERP Item English Name -->
+              <!-- start e-Invoice GPC Item Name -->
+              <div class="form-control-plaintext">
+                <label for="eInvoiceItemGPC">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.EInvoiceGPCItemName' | translate}}
+                  </span>
+                </label>
+                <select #eInvoiceItemGPC="ngModel" class="form-select form-select-lg mb-3"
+                  [(ngModel)]="objServ.SIitemMapping.eInvoiceItemGPC" name="eInvoiceItemGPC" id="eInvoiceItemGPC"
+                  (change)="onChangeSelection(eInvoiceCurrencyCode.value)" required>
+                  <option selected value="0">
+                    {{'general.choose' | translate}}
+                  </option>
+                  <option *ngFor="let option of eInvoiceCurrencyList" value={{option.gpcCode}}>
+                    {{option.gpcEngName}}
+                  </option>
+                </select>
+              </div>
+              <!-- end e-Invoice GPC Item Name -->
+            </div>
+
+            <div class="form-row">
+              <div class="col text-center">
+                <!-- Save -->
+                <button class="btn btn-success btn-sm mx-3" data-style="zoom-in">
+                  <i class="fas fa-save mx-2"></i>
+                  {{'FormData.Save' | translate}}
+                </button>
+                <!-- Delete -->
+                <button type="button" class="btn btn-danger btn-sm" 
+                *ngIf="Update" (click)="Delete(objServ.SIitemMapping.erpItemCode)">
+                  <i class="fas fa-trash-alt mx-2"></i>
+                  {{'FormData.Delete' | translate}}
+                  </button>
+  
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

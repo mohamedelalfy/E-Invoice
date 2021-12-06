@@ -1,0 +1,32 @@
+.Company{
+    display: flex;
+    justify-content: space-between;
+  
+    margin-top: 100px;
+}
+h4{
+    color: chocolate;
+}
+.badge-light
+{
+
+   font: 1em sans-serif;
+}
+.summary{
+    position: fixed;
+    z-index: 999;
+    top: 5px;
+    right: 0;
+}
+
+.totalamount{
+    width: 100%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-group{
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    width: 270px;
+}

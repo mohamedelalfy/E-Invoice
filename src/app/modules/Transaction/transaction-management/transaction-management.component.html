@@ -1,0 +1,742 @@
+<!-- <ngx-spinner></ngx-spinner> -->
+
+<div class="container">
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <label class="mr-5" for="fromDate">
+        {{'FormData.FromDate' | translate}}
+      </label>
+      <input type="date" class="form-control" id="fromDate" name="fromDate"
+        (ngModelChange)="onChangeSelectionafromdate()" [(ngModel)]="ifilterlistcount.fromdate">
+    </div>
+    <div class="col-md-6">
+      <label class="mr-5" for="todate">
+        {{'FormData.toDate' | translate}}
+      </label>
+      <input type="date" class="form-control" id="todate" name="todate" [(ngModel)]="ifilterlistcount.todate"
+        (ngModelChange)="onChangeSelectionatodate()">
+    </div>
+    <div class="mt-5">
+      <!-- <div class="d-flex justify-content-between "> -->
+      <div class="alert alert-success" role="alert">
+        <div class="alertSummry__body">
+          <div class="row">
+            <div class="col-md-3">
+              <ul class="list-unstyled">
+                <!-- Total No. Of Invoices : -->
+                <li class="">
+                  {{'FormData.NoOfInvoices' | translate}}
+                  <span class="text-danger">
+                    {{  this.Data.totalNumOfIinvoice+this.Data.totalNumOfCinvoice}}
+                  </span>
+                </li>
+                <!-- Total No. Of DebitNote -->
+                <li class="">
+                  {{'FormData.NoOfDebitNote' | translate}}
+                  <span class="text-danger">{{this.Data.totalNumOfIinvoice }}</span>
+                </li>
+                <!-- Total No. Of CreditNote : -->
+                <li class="">
+                  {{'FormData.NoOfCreditNote' | translate}}
+                  <span class="text-danger">{{this.Data.totalNumOfCinvoice }}</span> 
+                </li>
+
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <ul class="list-unstyled">
+                <!-- Total No. Of Exctracted-Transactions : -->
+                <li class="">
+                  {{'FormData.NoOfExctractedTransactions' | translate}}
+
+                   <span class="text-danger">
+                    {{ this.Data.totalNumOfExctractinvoice}}
+                  </span> 
+                </li>
+                <!-- Total No. Of Validated-Transactions :  -->
+                <li class="">
+                  {{'FormData.NoOfValidatedTransactions' | translate}}
+                  <span class="text-danger">
+                    {{this.Data.totalNumOfValidatinvoice}}
+                  </span> 
+                </li>
+                <!-- Total No. Of Submited-Transactions : -->
+                <li class="">
+                  {{'FormData.NoOfSubmitedTransactions' | translate}}
+                  <span class="text-danger">
+                    {{this.Data.totalNumOfSubmitedinvoice}}
+                  </span> 
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
+  <!-- end .row -->
+  <hr>
+  <div class="form-row" [hidden]="insert">
+    <div class="form-group col-md-6" *ngIf="GroupInsert==='1'">
+      <button type="button" id="btnoption" class="btn btn-success btn-sm" (click)="Addnewrecord()">
+        <i class="fas fa-plus"></i> {{'AddNewRecord' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container" [hidden]="insert">
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <h4>Last Extract Date from ERP: {{eDate}}</h4>
+
+
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+
+      <label  for="InvoiceStatus">
+        <h4  class="h4 text-muted">Invoice Status:</h4>
+      </label>
+      <select #InvoiceStatus="ngModel" class="form-select form-select-lg mb-3" name="InvoiceStatus" id="InvoiceStatus"
+        [(ngModel)]="StatusCode" (ngModelChange)="onChangeSelectionaInvoiceStatus(InvoiceStatus.value)">
+        <option value="0"> ALL </option>
+        <option *ngFor="let option of InvoiceStatusList" value={{option.transactionStatusCode}}>
+          {{option.transactionStatusEngName}}
+        </option>
+      </select>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row my-5" >
+    <div class="form-group col-md-4">
+      <input class="form-control" type="file" #fileInput [hidden]="this.Useexcel!=105" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <button type="button" class="btn btn-success extract btn-group" (click)="ExtractTransaction()">
+        Extract Transaction from ERP
+      </button>
+    </div>
+    <div class="col-md-4">
+      <button type="button" class="btn btn-success validate btn-group" (click)="ValidateTransactions()">
+        Validate Transactions
+      </button>
+    </div>
+    <div class="col-md-4">
+      <button type="button" class="btn btn-success submit btn-group" (click)="SubmittoETA()">
+        Submit to ETA
+      </button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="Transaction__Status text-center">
+    <button type="button" class="btn btn-primary mx-3" (click)="serarch(template)">
+      Check Transaction Status
+    </button>
+    <button type="button" class="btn btn-danger" (click)="DeleteTransaction()">
+      Delete Transaction
+    </button>
+
+  </div>
+
+  <hr>
+
+  <div class="del__Transaction text-center">
+  </div>
+
+  <div class="row">
+    <div class="col-md-12" *ngIf="displayItemNameList!=''">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Validate Transaction</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" ng-list="&#10;" ng-trim="false">
+        {{displayItemNameList}}
+      </textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mb-5">
+    <div class="form-group form-check">
+      <input #selectall="ngModel" type="checkbox" [(ngModel)]='showyn' class="form-check-input" id="selectall"
+        (change)="eventCheck($event.target)">
+        <!-- SelectAll -->
+      <label class="form-check-label" for="selectall">
+        {{'FormData.SelectAll' | translate}}
+      </label>
+    </div>
+  </div>
+  <div class="grid">
+    <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [enableRangeSelection]="true"
+      [rowData]="rowData | async " [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
+      animateRows [rowSelection]="rowSelection2" (selectionChanged)="onSelectionChanged($event)"
+      (gridReady)="onGridReady($event)" (rowDoubleClicked)="onrowDoubleClicked($event)"
+      (filterChanged)="onfilterChanged($event)" (rowDataChanged)="onrowDataUpdatedChanged($event)" pagination>
+    </ag-grid-angular>
+  </div>
+</div>
+<div class="container">
+  <div class="alert alert-dark mt-5" role="alert">
+    <div class="d-flex justify-content-center totalamount"> Total Amount =
+        {{sumTotalAmount}}
+    </div>
+  </div>
+</div>
+<div class="container" [hidden]="!insert">
+  <form #Groups="ngForm" (ngSubmit)="onSubmit(Groups)">
+    <div class="row my-5" [hidden]="UsingDiscount">
+      <!-- start Other Discount -->
+      <div class="col-md-6">
+        <label  for="ExtraDiscount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.OtherDiscount' | translate}}
+          </span>
+        </label>
+        <input #ExtraDiscount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="ExtraDiscount" id="ExtraDiscount" [(ngModel)]="extraDiscountvalue"
+           placeholder="{{'FormData.OtherDiscount' | translate}}"
+          required>
+      </div>
+      <!-- End Other Discount -->
+
+      <!-- start Update Discount -->
+      <div class="col-md-6">
+        <div class="Update__Discount mt-5">
+          <button type="button" class="btn btn-danger"  (click)="UpdateDiscount()">
+            {{'FormData.UpdateDiscount' | translate}}
+          </button>
+        </div>
+      </div>
+      <!-- End Update Discount -->
+      <!--start Document Type -->
+      <div class="col-md-6">
+        <label  for="DocumentType">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.DocumentType' | translate}}
+          </span>
+        </label>
+        <input #DocumentType="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="DocumentType" id="DocumentType" [(ngModel)]="objServ.StransactionsH.documentType"
+          placeholder=" {{'FormData.DocumentType' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && DocumentType.invalid && DocumentType.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Document Type -->
+      <!-- start DateTime Issued -->
+      <div class="form-group col-md-6">
+        <label  for="DateTimeIssued">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.DateTimeIssued' | translate}}
+          </span>
+        </label>
+        <input #DateTimeIssued="ngModel" type="datetime-local" data-dismiss="modal" class="form-control input-sm"
+          name="DateTimeIssued" id="DateTimeIssued" [(ngModel)]="objServ.StransactionsH.dateTimeIssued"
+          placeholder="{{'FormData.DateTimeIssued' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && DateTimeIssued.invalid && DateTimeIssued.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End DateTime Issued -->
+      <!-- start Customer Type -->
+      <div class="col-md-6">
+        <label  for="CustomerType">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CustomerType' | translate}}
+          </span>
+        </label>
+        <input #CustomerType="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="CustomerType" id="CustomerType" [(ngModel)]="objServ.StransactionsH.customerType"
+          placeholder="{{'FormData.CustomerType' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && CustomerType.invalid && CustomerType.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Customer Type -->
+
+      <!--start Customer Name -->
+      <div class="col-md-6">
+        <label  for="CustomerName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CustomerName' | translate}}
+          </span>
+        </label>
+        <input #CustomerName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="CustomerName" id="CustomerName" [(ngModel)]="objServ.StransactionsH.customerName"
+          placeholder="{{'FormData.CustomerName' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && CustomerName.invalid && CustomerName.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Customer Name -->
+      <!--start Customer Tax Id -->
+      <div class="col-md-6">
+        <label  for="CustomerTaxId">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CustomerTax' | translate}}
+          </span>
+        </label>
+        <input #CustomerTaxId="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="CustomerTaxId" id="CustomerTaxId" [(ngModel)]="objServ.StransactionsH.customerTaxId"
+          placeholder="{{'FormData.CustomerTax' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && CustomerTaxId.invalid && CustomerTaxId.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Customer Tax Id -->
+      <!--start Country Name -->
+      <div class="col-md-6">
+        <label  for="CountryName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CountryName' | translate}}
+          </span>
+        </label>
+        <input #CountryName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="CountryName"
+          id="CountryName" [(ngModel)]="objServ.StransactionsH.countryName"
+          placeholder="{{'FormData.CountryName' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && CountryName.invalid && CountryName.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Country Name -->
+      <!--start Governorate Name -->
+      <div class="col-md-6">
+        <label  for="GovernorateName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.governorate' | translate}}
+          </span>
+        </label>
+        <input #governorateName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="governorateName" id="governorateName" [(ngModel)]="objServ.StransactionsH.governorateName"
+          placeholder="{{'FormData.governorate' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && governorateName.invalid && governorateName.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Governorate Name -->
+      <!-- start Region Name -->
+      <div class=" col-md-6">
+        <label  for="regionName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Region' | translate}}
+          </span>
+        </label>
+        <input #regionName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="regionName"
+          id="regionName" [(ngModel)]="objServ.StransactionsH.regionName"
+           placeholder="{{'FormData.Region' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && regionName.invalid && regionName.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Region Name -->
+      <!-- start Postal Code -->
+      <div class="col-md-6">
+        <label  for="postalCode">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.PostalCode' | translate}}
+          </span>
+        </label>
+        <input #postalCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="postalCode"
+          id="postalCode" [(ngModel)]="objServ.StransactionsH.postalCode"
+          placeholder="{{'FormData.PostalCode' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && postalCode.invalid && postalCode.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Postal Code -->
+      <!-- start Floor -->
+      <div class="col-md-6">
+        <label  for="floor">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Floor' | translate}}
+          </span>
+        </label>
+        <input #floor="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="floor" id="floor"
+          [(ngModel)]="objServ.StransactionsH.floor" 
+          placeholder="{{'FormData.Floor' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && floor.invalid && floor.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Floor -->
+      <!--start Street -->
+      <div class="col-md-6">
+        <label  for="street">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Street' | translate}}
+          </span>
+        </label>
+        <input #street="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="street"
+          id="street" [(ngModel)]="objServ.StransactionsH.street" 
+          placeholder="{{'FormData.Street' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && street.invalid && street.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Street -->
+      <!--start Building Number -->
+      <div class="col-md-6">
+        <label  for="buildingNumber">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.BuildingNum' | translate}}
+          </span>
+        </label>
+        <input #buildingNumber="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="buildingNumber" id="Building Number" [(ngModel)]="objServ.StransactionsH.buildingNumber"
+          placeholder="{{'FormData.BuildingNum' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && buildingNumber.invalid && buildingNumber.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Building Number -->
+      <!-- sart Room -->
+      <div class="col-md-6">
+        <label  for="room">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Room' | translate}}
+          </span>
+        </label>
+        <input #room="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="room" id="room"
+          [(ngModel)]="objServ.StransactionsH.room" 
+          placeholder="{{'FormData.Room' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && room.invalid && room.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Room -->
+      <!--start Landmark -->
+      <div class="col-md-6">
+        <label  for="landmark">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Landmark' | translate}}
+          </span>
+        </label>
+        <input #landmark="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="landmark"
+          id="landmark" [(ngModel)]="objServ.StransactionsH.landmark" 
+          placeholder="{{'FormData.Landmark' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && landmark.invalid && landmark.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!--End Landmark -->
+      <!-- start Additional Information -->
+      <div class="col-md-6">
+        <label  for="additionalInformation">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.AdditionalInfo' | translate}}
+          </span>
+        </label>
+        <input #additionalInformation="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="additionalInformation" id="additionalInformation"
+          [(ngModel)]="objServ.StransactionsH.additionalInformation" 
+          placeholder="{{'FormData.AdditionalInfo' | translate}}" required>
+        <div class="text-danger"
+          *ngIf="isSubmitted && additionalInformation.invalid && additionalInformation.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Additional Information -->
+      <!-- start Currency Code -->
+      <div class="col-md-6">
+        <label  for="eRPCurrencyCode">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CurrencyCode' | translate}}
+          </span>
+        </label>
+        <input #eRPCurrencyCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="eRPCurrencyCode" id="eRPCurrencyCode" [(ngModel)]="objServ.StransactionsH.eRPCurrencyCode"
+          placeholder="{{'FormData.CurrencyCode' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && eRPCurrencyCode.invalid && eRPCurrencyCode.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Currency Code -->
+      <!-- start Exchange Rate -->
+      <div class="col-md-6">
+        <label  for="exchangeRate">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.ExchangeRate' | translate}}
+          </span>
+        </label>
+        <input #exchangeRate="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="exchangeRate" id="exchangeRate" [(ngModel)]="objServ.StransactionsH.exchangeRate"
+          placeholder="{{'FormData.ExchangeRate' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && exchangeRate.invalid && exchangeRate.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Exchange Rate -->
+      <!-- start Total Sales Amount -->
+      <div class="col-md-6">
+        <label  for="totalSalesAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.SalesAmount' | translate}}
+          </span>
+        </label>
+        <input #totalSalesAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="totalSalesAmount" id="totalSalesAmount" [(ngModel)]="objServ.StransactionsH.totalSalesAmount"
+          placeholder="{{'FormData.SalesAmount' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && totalSalesAmount.invalid && totalSalesAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total Sales Amount -->
+      <!-- start Total Discount Amount  -->
+      <div class="col-md-6">
+        <label  for="totalDiscountAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.DiscountAmount' | translate}}
+          </span>
+        </label>
+        <input #totalDiscountAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="totalDiscountAmount" id="totalDiscountAmount" [(ngModel)]="objServ.StransactionsH.totalDiscountAmount"
+          placeholder="{{'FormData.DiscountAmount' | translate}}" required>
+        <div class="text-danger"
+          *ngIf="isSubmitted && totalDiscountAmount.invalid && totalDiscountAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total Discount Amount  -->
+      <!-- start Net Amount -->
+      <div class="col-md-6">
+        <label  for="netAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.NetAmount' | translate}}
+          </span>
+        </label>
+        <input #netAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="netAmount"
+          id="netAmount" [(ngModel)]="objServ.StransactionsH.netAmount" 
+          placeholder="{{'FormData.NetAmount' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && netAmount.invalid && netAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Net Amount -->
+      <!-- start Total VAT -->
+      <div class="col-md-6">
+        <label  for="totalVAT">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.TotalVAT' | translate}} 
+          </span>
+        </label>
+        <input #totalVAT="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="totalVAT"
+          id="totalVAT" [(ngModel)]="objServ.StransactionsH.totalVAT" 
+          placeholder="{{'FormData.TotalVAT' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && totalVAT.invalid && totalVAT.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total VAT -->
+      <!-- start Total WHT -->
+      <div class="col-md-6">
+        <label  for="totalWHT">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.TotalWHT' | translate}} 
+          </span>
+        </label>
+        <input #totalWHT="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="totalWHT"
+          id="totalWHT" [(ngModel)]="objServ.StransactionsH.totalWHT" 
+          placeholder="{{'FormData.TotalWHT' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && totalWHT.invalid && totalWHT.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total WHT -->
+      <!-- start Extra Discount Amount -->
+      <div class="col-md-6">
+        <label  for="extraDiscountAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.ExtraDiscountAmount' | translate}} 
+          </span>
+        </label>
+        <input #extraDiscountAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="extraDiscountAmount" id="extraDiscountAmount" [(ngModel)]="objServ.StransactionsH.extraDiscountAmount"
+          placeholder="{{'FormData.ExtraDiscountAmount' | translate}} " required>
+        <div class="text-danger"
+          *ngIf="isSubmitted && extraDiscountAmount.invalid && extraDiscountAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Extra Discount Amount -->
+      <!-- start Total Items Discount Amount -->
+      <div class="col-md-6">
+        <label  for="totalItemsDiscountAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.DiscountAmount' | translate}} 
+          </span>
+        </label>
+        <input #totalItemsDiscountAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="totalItemsDiscountAmount" id="totalItemsDiscountAmount"
+          [(ngModel)]="objServ.StransactionsH.totalItemsDiscountAmount"
+          placeholder="{{'FormData.DiscountAmount' | translate}} "
+          required>
+        <div class="text-danger"
+          *ngIf="isSubmitted && totalItemsDiscountAmount.invalid && totalItemsDiscountAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total Items Discount Amount -->
+      <!-- start Total Amount -->
+      <div class="col-md-6">
+        <label  for="totalAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.TotalAmount' | translate}} 
+          </span>
+        </label>
+        <input #totalAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="totalAmount"
+          id="totalAmount" [(ngModel)]="objServ.StransactionsH.totalAmount" 
+          placeholder="{{'FormData.TotalAmount' | translate}}" required>
+        <div class="text-danger" *ngIf="isSubmitted && totalAmount.invalid && totalAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total Amount -->
+      <!-- start Total Sales Amount -->
+      <div class="col-md-6">
+        <label  for="totalSalesAmount">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.SalesAmount' | translate}} 
+          </span>
+        </label>
+        <input #totalSalesAmount="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="totalSalesAmount" id="totalSalesAmount" [(ngModel)]="objServ.StransactionsH.totalSalesAmount"
+          placeholder="{{'FormData.SalesAmount' | translate}} " required>
+        <div class="text-danger" *ngIf="isSubmitted && totalSalesAmount.invalid && totalSalesAmount.errors?.required ">
+          <small>{{'required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Total Sales Amount -->
+    </div>
+    <!-- .row -->
+
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <ag-grid-angular #agGrid2 style="width: 100%; height: 450px;" class="ag-theme-alpine"
+          [rowData]="rowData2 | async " [columnDefs]="columnDefs2" animateRows [rowSelection]="rowSelection2"
+          (gridReady)="onGridReady2($event)" pagination>
+        </ag-grid-angular>
+      </div>
+    </div>
+    <hr>
+    <div class="row mb-5">
+      <div class="col text-center">
+        <button class="btn btn-success btn-sm mx-4" data-style="zoom-in" *ngIf="GroupInsert==='1'">
+          <i class="fas fa-save mx-2"></i>
+          {{'FormData.Save' | translate}} 
+        </button>
+         
+        <button type="button" class="btn btn-danger btn-sm" (click)="CancelSave()">
+          <i class="fas fa-undo mx-2"> </i> 
+          {{'FormData.cancel' | translate}}
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog" [style.display]=" 'block'">
+    <div class="modal-dialog  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle">{{title| translate }}</h6>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="hide2()"></button>
+
+        </div>
+        <div class="modal-body">
+          <form #Groups="ngForm" (ngSubmit)=" UpdateInvoiceStatus()">
+
+            <div class="row mt-1">
+              <!-- start From Date -->
+              <div class="form-group col-md-6">
+                <label class="mr-5 badge badge-pill badge-light" for="fromDate">
+                  {{'FormData.FromDate' | translate}} 
+                </label>
+                <input type="date" class="form-control" id="fromDate" [(ngModel)]="fromday" name="fromDate"
+                  placeholder="today">
+              </div>
+              <!-- End From Date -->
+
+              <!-- start To Date -->
+              <div class="form-group col-md-6">
+                <label class="mr-5 badge badge-pill badge-light" for="fromDate">
+                  {{'FormData.toDate' | translate}} 
+                  </label>
+                <input type="date" class="form-control" id="fromDate" [(ngModel)]="today" name="fromDate"
+                  placeholder="today">
+              </div>
+              <!-- End To Date -->
+              
+              <!-- start From Invoice Serial -->
+              <div class="form-group col-md-6">
+                <label class="mr-5 mt-3 badge badge-pill badge-light" for="fromserial">
+                  {{'FormData.FromInvoiceSerial' | translate}} 
+                </label>
+                <input type="text" class="form-control" id="fromserial"
+                  [(ngModel)]="this.ifilterlist.fromserial"
+                  name="fromserial" placeholder="From Invoice Serial">
+              </div>
+              <!-- End From Invoice Serial -->
+
+              <!-- start To Invoice Serial -->
+              <div class="form-group col-md-6">
+                <label class="mr-5 mt-3 badge badge-pill badge-light" for="toserial">
+                  {{'FormData.ToInvoiceSerial' | translate}} 
+                </label>
+                <input type="text" class="form-control" id="toserial" [(ngModel)]="this.ifilterlist.toserial"
+                  name="toserial" placeholder="To Invoice Serial">
+              </div>
+              <!-- End To Invoice Serial -->
+
+              <!-- start Invoice Type: -->
+              <div class="form-group col-md-6">
+                <label  for="InvoiceStatus"><span 
+                    class="mr-5 mt-3 badge badge-pill badge-light">
+                  {{'FormData.InvoiceType' | translate}} 
+
+                  </span>
+                </label>
+                <select #InvoiceStatus="ngModel" class="form-select form-select-lg mb-3" name="InvoiceStatus"
+                  id="InvoiceStatus" [(ngModel)]="this.ifilterlist.documentType">
+                  <option value="0"> ALL </option>
+                  <option value="I"> I   </option>
+                  <option value="C"> C   </option>
+                </select>
+              </div>
+              <!-- End Invoice Type: -->
+
+            </div>
+            <!-- .row -->
+
+            <div class="modal-footer mt-5">
+              <button class="btn btn-danger" data-style="zoom-in">
+                Check Transaction Status
+
+              </button>
+
+
+
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</ng-template>

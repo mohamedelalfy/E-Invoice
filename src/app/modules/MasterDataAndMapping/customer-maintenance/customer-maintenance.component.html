@@ -1,0 +1,256 @@
+<div class="container">
+  <div class="text-center mb-5" [hidden]="insert">
+    <!-- add New Record -->
+    <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord()">
+      <i class="fas fa-plus"></i> 
+      {{'general.addNewRecord' | translate }}
+    </button>
+    <!-- update Record -->
+    <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord()">
+      <i class="fas fa-edit"></i>
+      {{'general.updateRecord' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="grid" [hidden]="insert">
+    <ag-grid-angular #agGrid style="width: 100%; height: 500px;" class="ag-theme-alpine" [rowData]="rowData | async "
+      [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" animateRows
+      [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+      (rowDoubleClicked)="onrowDoubleClicked($event)" pagination>
+    </ag-grid-angular>
+</div>
+
+<div class="container" [hidden]="!insert">
+
+
+
+  <form #Groups="ngForm" (ngSubmit)="onSubmit(Groups)">
+    <div class="row">
+      <!-- start Customer Arabic Name -->
+      <div class="form-group col-md-6">
+        <label  for="customerName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CustomerArName' | translate}}
+            <!-- Customer Arabic Name -->
+          </span>
+        </label>
+        <input #customerName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="customerName" id="customerName" [(ngModel)]="objServ.SIcustomer.customerName"
+          placeholder="Customer Arabic Name" required>
+        <div class="text-danger" *ngIf="isSubmitted && customerName.invalid && customerName.errors?.required ">
+          <small>{{'general.required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Customer Arabic Name -->
+
+      <!-- start Customer English Name -->
+      <div class="form-group col-md-6">
+        <label  for="customerEngName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CustomerEnName' | translate}}
+
+          </span>
+        </label>
+        <input #customerEngName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="customerEngName" id="customerEngName" [(ngModel)]="objServ.SIcustomer.customerEngName"
+          placeholder="Customer English Name" required>
+        <div class="text-danger" *ngIf="isSubmitted && customerEngName.invalid && customerEngName.errors?.required ">
+          <small>{{'general.required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Customer English Name -->
+      <!-- start  Customer Code -->
+      <div class="form-group col-md-6">
+        <label  for="customerCode">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.CustomerCode' | translate}}
+          </span>
+        </label>
+        <input #customerCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="customerCode" id="customerCode" [(ngModel)]="objServ.SIcustomer.customerCode" placeholder="customerCode"
+          required>
+        <div class="text-danger" *ngIf="isSubmitted && customerCode.invalid && customerCode.errors?.required ">
+          <small>{{'general.required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End  Customer Code -->
+      <!--start  Country Code -->
+      <div class="form-group col-md-6">
+        <label  for="countryCode">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.countryCode' | translate}}
+          </span>
+        </label>
+        <select #countryCode="ngModel" class="form-select form-select-lg mb-3"
+          [(ngModel)]="objServ.SIcustomer.countryCode" name="countryCode" id="countryCode"
+          (change)="onChangeSelectioncountryID(countryCode.value)" required>
+          <option *ngFor="let option of countryList" value={{option.countryCode}}>
+            {{option.countryEngName}}
+          </option>
+        </select>
+      </div>
+      <!--End  Country Code -->
+      <!-- start Governorate -->
+      <div class="form-group col-md-6">
+        <label  for="governorateName">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.governorate' | translate}}
+          </span>
+        </label>
+        <input #governorateName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="governorateName" id="governorateName" [(ngModel)]="objServ.SIcustomer.governorateName"
+          placeholder="governorate Name" required>
+
+      </div>
+      <!-- End Governorate -->
+      <!-- start Region -->
+      <div class="form-group col-md-6">
+        <label  for="regionCode">
+          <span  class="badge badge-pill badge-light">
+            {{'FormData.Region' | translate}}
+          </span>
+        </label>
+        <input #regionName="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="regionName"
+          id="regionName" [(ngModel)]="objServ.SIcustomer.regionName" placeholder="Region Name" required>
+      </div>
+      <!-- End Region -->
+      <!-- start Street -->
+      <div class="form-group col-md-6">
+        <label  for="street">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Street' | translate}}
+          </span>
+        </label>
+        <input #street="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="street"
+          id="street" [(ngModel)]="objServ.SIcustomer.street" placeholder="street">
+
+      </div>
+      <!-- End Street -->
+      <!-- start Building Number -->
+      <div class="form-group col-md-6">
+        <label  for="buildingNumber">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.BuildingNum' | translate}}
+          </span>
+        </label>
+        <input #buildingNumber="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="buildingNumber" id="buildingNumber" [(ngModel)]="objServ.SIcustomer.buildingNumber"
+          placeholder="buildingNumber">
+
+      </div>
+      <!-- End Building Number -->
+      <!--start  Postal Code -->
+      <div class="form-group col-md-6">
+        <label  for="postalCode">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.PostalCode' | translate}}
+          </span>
+        </label>
+        <input #postalCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="postalCode"
+          id="postalCode" [(ngModel)]="objServ.SIcustomer.postalCode" placeholder="postalCode">
+      </div>
+      <!--End Postal Code -->
+      <!-- start Floor -->
+      <div class="form-group col-md-6">
+        <label  for="floor">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Floor' | translate}}
+          </span>
+        </label>
+        <input #floor="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="floor" id="floor"
+          [(ngModel)]="objServ.SIcustomer.floor" placeholder="floor">
+      </div>
+      <!-- End Floor -->
+      <!-- start Room  -->
+      <div class="form-group col-md-6">
+        <label  for="room">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Room' | translate}}
+          </span>
+        </label>
+        <input #room="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="room" id="room"
+          [(ngModel)]="objServ.SIcustomer.room" placeholder="Room">
+
+      </div>
+      <!-- End Room  -->
+      <!-- start Landmark -->
+      <div class="form-group col-md-6">
+        <label  for="landmark">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.Landmark' | translate}}
+          </span>
+        </label>
+        <input #landmark="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="landmark"
+          id="landmark" [(ngModel)]="objServ.SIcustomer.landmark" placeholder="landmark">
+
+      </div>
+      <!-- End Landmark -->
+      <!-- start Additional Information -->
+      <div class="form-group col-md-6">
+        <label  for="additionalInformation">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.AdditionalInfo' | translate}}
+          </span>
+        </label>
+        <input #additionalInformation="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+          name="additionalInformation" id="additionalInformation" [(ngModel)]="objServ.SIcustomer.additionalInformation"
+          placeholder="additionalInformation">
+
+      </div>
+      <!-- End Additional Information -->
+      <!-- start Tax ID -->
+      <div class="form-group col-md-6">
+        <label  for="taxID">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.TaxID' | translate}}
+          </span>
+        </label>
+        <input #taxID="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="taxID" id="taxID"
+          [(ngModel)]="objServ.SIcustomer.taxId" placeholder="taxID" required>
+        <div class="text-danger" *ngIf="isSubmitted && taxID.invalid && taxID.errors?.required ">
+          <small>{{'general.required' | translate}}</small>
+        </div>
+      </div>
+      <!-- End Tax ID -->
+      <!-- start VAT Exemption (Y/N) -->
+      <div class="form-group col-md-6 mt-5">
+        <label  for="vATExemptionYN">
+          <span class="badge badge-pill badge-light">
+            {{'FormData.VATExemption' | translate}}
+          </span>
+        </label>
+        <input #vATExemptionYN="ngModel" type="checkbox" data-dismiss="modal" class="form-check-input"
+          name="vATExemptionYN" id="vATExemptionYN" value="{{objServ.SIcustomer.vATExemptionYN}}"
+          [(ngModel)]="objServ.SIcustomer.vATExemptionYN" placeholder="vATExemptionYN">
+      </div>
+      <!-- End VAT Exemption (Y/N) -->
+    </div>
+    <!-- end .row -->
+
+    <div class="row my-4 ">
+      <div class="col text-center">
+        <!-- Save -->
+        <button class="btn btn-success btn-sm mx-4" data-style="zoom-in">
+          <i class="fas fa-save mx-2"></i>
+          {{'FormData.Save' | translate}}
+        </button>
+        <!-- Delete -->
+        <button type="button" class="btn btn-danger btn-sm mx-4" *ngIf="objServ.SIcustomer.customerSerial>0"
+          (click)="Delete(objServ.SIcustomer.customerSerial)">
+          <i class="fas fa-trash-alt mx-2"></i>
+          {{'FormData.Delete' | translate}}
+        </button>
+        <!-- cancel -->
+        <button type="button" class="btn btn-dark btn-sm " (click)="CancelSave()">
+          <i class="fas fa-undo mx-2"> </i> 
+          {{'FormData.cancel' | translate}}
+        </button>
+
+      </div>
+    </div>
+
+  </form>
+
+
+</div>

@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="text-center mb-5">
+    <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
+      <i class="fas fa-plus"></i> 
+      {{'general.addNewRecord' | translate }}
+    </button>
+    <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord(template)">
+      <i class="fas fa-edit"></i> 
+      {{'general.updateRecord' | translate }}
+    </button>
+  </div>
+</div>
+
+  <div class="grid">
+    <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [rowData]="rowData | async "
+      [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  animateRows
+      [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+      (rowDoubleClicked)="onrowDoubleClicked($event)" pagination>
+    </ag-grid-angular>
+  </div>
+
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog" [style.display]=" 'block'">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle">
+            {{'general.add'| translate}}
+          </h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="hide()"></button>
+        </div>
+        <div class="modal-body">
+          <form #region="ngForm" (ngSubmit)="onSubmit(region)">
+            <div class="row mb-5">
+              <!-- start region Code -->
+              <div class="col-md-6">
+                <label for="regionCode">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.regionCode' | translate}}
+                  </span>
+                </label>
+                
+                <input #regionCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                  name="regionCode" id="regionCode" [(ngModel)]="RegionServ.SIregion.regionCode"
+                  placeholder=" {{'FormData.regionCode' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && regionCode.invalid && regionCode.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End regionCode -->
+              <div class="col-md-6">
+                <label for="regionName">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.ArName' | translate}}
+                  </span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="regionName"
+                  id="regionName" [(ngModel)]="RegionServ.SIregion.regionName" placeholder="{{'FormData.ArName' | translate}}"
+                  required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="Latname"><span
+                    class="badge badge-pill badge-light">{{'FormData.EnName' | translate}}</span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                  name="regionEngName" id="regionEngName" [(ngModel)]="RegionServ.SIregion.regionEngName"
+                  placeholder="{{'FormData.EnName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- start governorate -->
+              <div class="col-md-6">
+                <label for="governorateCode"><span
+                   class="badge badge-pill badge-light">
+                   {{'FormData.governorate' | translate}}
+                  </span>
+                </label>
+                <select #governorateCode="ngModel" class="form-select form-select-lg mb-3"
+                  [(ngModel)]="RegionServ.SIregion.governorateCode" name="governorateCode" id="governorateCode"
+                  (change)="onChangeSelectioncountryID(governorateCode.value)" required>
+                  <option selected value="0">
+                    {{'general.choose' | translate}}
+                  </option>
+                  <option *ngFor="let option of GovernorateseList" value={{option.governorateCode}}>
+                    {{option.governoratLatName}}
+                  </option>
+                </select>
+              </div>
+              <!-- End governorate -->
+            </div>
+            <!-- .row -->
+
+            <div class="form-row">
+              <div class="col text-center">
+                <!-- Save -->
+                <button class="btn btn-success btn-sm" data-style="zoom-in">
+                  <i class="fas fa-save mx-2"></i>
+                  {{'FormData.Save' | translate}}
+                </button>
+                <!-- Reset -->
+                <button type="button" class="btn btn-dark btn-sm mx-4" (click)="reset()">
+                  <i class="fas fa-undo mx-2"> </i> 
+                  {{'FormData.Reset' | translate}}
+                </button>
+                <!-- Delete -->
+                <button type="button" class="btn btn-danger btn-sm" *ngIf="RegionServ.SIregion.regionCode!=''"
+                  (click)="Delete(RegionServ.SIregion.regionCode)">
+                  <i class="fas fa-trash-alt mx-2"></i>
+                  {{'FormData.Delete' | translate}}
+                </button>
+                <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                </div> -->
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

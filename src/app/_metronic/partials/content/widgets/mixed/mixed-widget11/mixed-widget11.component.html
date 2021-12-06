@@ -1,0 +1,48 @@
+<div class="container my-5">
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <label for="FromDate1">
+        <span class="badge badge-pill badge-light">
+          From Date</span>
+      </label>
+      <input type="date" placeholder="FromDate" [(ngModel)]="FromDate" name="FromDate1" id="FromDate1"
+        class="form-control input-md" />
+    </div>
+    <div class="col-md-6">
+      <label for="ToDate1">
+        <span class="badge badge-pill badge-light">
+          To Date</span>
+      </label>
+      <input type="date" placeholder="ToDate" [(ngModel)]="ToDate" class="form-control input-md" name="ToDate1"
+        id="ToDate1" />
+    </div>
+
+  </div>
+  <div class="form-row d-flex justify-content-center text-center ">
+
+    <div class="form-group  d-flex justify-content-center text-center my-5">
+      <button type="button" id="btnoption" class="btn btn-success btn-sm" (click)="handler()">
+        Show Data
+      </button>
+    </div>
+  </div>
+
+  <!-- <ngx-charts-bar-vertical-2d
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="ChartData"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [legendTitle]="legendTitle"
+      (select)="onSelect($event)"
+      >
+      </ngx-charts-bar-vertical-2d> -->
+</div>

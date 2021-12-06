@@ -1,0 +1,188 @@
+
+<!--start buttons  -->
+<div class="mb-5 text-center">
+    <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
+      <i class="fas fa-plus"></i> 
+      {{'general.addNewRecord' | translate }}
+    </button>
+    <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord(template)">
+      <i class="fas fa-edit"></i>
+      {{'general.updateRecord' | translate }}
+    </button>
+  </div>
+  <!--End buttons  -->
+
+
+
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog" [style.display]=" 'block'">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle">
+            {{'general.add'| translate}}
+          </h6>
+          <button type="button" class="btn-close" (click)="hide()" data-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+          <form #Users="ngForm" (ngSubmit)="onSubmit(Users)">
+            <div class="row">
+              <!-- start Email -->
+              <div class="col-md-6">
+                <label  for="userName">
+                  <span  class="badge badge-pill badge-light">
+                    {{'FormData.Email' | translate}}
+                  </span> 
+                </label>
+
+                <input #userName="ngModel" type="email" name="userName" [(ngModel)]="obserUser.Seruser.userName"
+                  class="form-control input-sm" id="userName" placeholder="{{'FormData.Email' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && userName.invalid && userName.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End Email -->
+
+              <!--start ArName -->
+              <div class="col-md-6">
+                <label  for="name">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.ArName' | translate}}
+                  </span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="name"
+                  id="name" [(ngModel)]="obserUser.Seruser.name" placeholder="{{'FormData.ArName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!--End ArName -->
+
+              <!-- start EnName -->
+              <div class="col-md-6">
+                <label  for="EnName">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.EnName' | translate}}
+                  </span> 
+                </label>
+                <input #nameLat="ngModel" id="EnName" type="text" name="EnName" [(ngModel)]="obserUser.Seruser.nameLat"
+                  class="form-control input-sm" id="userName"
+                   placeholder="{{'FormData.EnName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && nameLat.invalid && nameLat.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End EnName -->
+
+              <!--start Mobile -->
+              <div class="col-md-6">
+                <label  for="mobile"><span 
+                    class="badge badge-pill badge-light">{{'FormData.Mobile' | translate}}</span>
+                </label>
+                <input #mobile="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="mobile"
+                  id="mobile" [(ngModel)]="obserUser.Seruser.mobile" placeholder="{{'FormData.Mobile' | translate}}">
+              </div>
+              <!--End Mobile -->
+              <!-- start Mobile1 -->
+              <div class="col-md-6">
+                <label  for="mobile1">
+                  <span class="badge badge-pill badge-light">
+                    {{'FormData.Mobile1' | translate}}
+                  </span> 
+                </label>
+
+                <input #mobile1="ngModel" type="text" name="mobile1" [(ngModel)]="obserUser.Seruser.mobile1"
+                  class="form-control input-sm" id="mobile1" placeholder="{{'FormData.Mobile1' | translate}}">
+
+              </div>
+              <!-- End Mobile1 -->
+
+              <!-- start Password -->
+              <div class="col-md-6">
+                <label  for="password">
+                  <span  class="badge badge-pill badge-light">
+                    {{'FormData.Password' | translate}}
+                  </span> 
+                </label>
+                <input #password="ngModel" type="text" name="password" [(ngModel)]="obserUser.Seruser.password"
+                  class="form-control input-sm" id="password" 
+                  placeholder="{{'FormData.Password' | translate}}">
+              </div>
+              <!--End Password -->
+
+            <!-- Groups -->
+            <div class="col-md-6">
+              <label  for="groupId">
+                <span  class="badge badge-pill badge-light">
+                  {{'FormData.Groups' | translate}}
+                </span>
+              </label>
+              <select #groupId="ngModel" class="form-select form-select-lg"
+                [(ngModel)]="obserUser.Seruser.groupId" name="groupId" id="groupId"
+                (ngModelChange)="onChangeSelection($event)" required>
+                <option selected value="0">
+                  {{'general.choose' | translate}}
+                </option>
+                <option *ngFor="let xgroup of groups" value={{xgroup.groupId}}>
+                  {{xgroup.groupName}}
+                </option>
+              </select>
+            </div>
+            <!-- Groups -->
+            <!--start Address -->
+            <div class="col-md-6">
+              <label  for="address">
+                <span class="badge badge-pill badge-light">
+                  {{'FormData.Address' | translate}}
+                </span>
+              </label>
+              <textarea #address="ngModel" type="text" data-dismiss="modal" rows="3" class="form-control input-sm"
+                name="address" id="address" [(ngModel)]="obserUser.Seruser.address"
+                placeholder="{{'FormData.Address' | translate}}">
+                </textarea>
+            </div>
+            <!--End Address -->
+            </div> <!-- .row -->
+
+      
+        <div class="row mt-5">
+          <div class="col text-center">
+            <!-- Save -->
+            <button class="btn btn-success btn-sm" data-style="zoom-in">
+              <span class="fas fa-save mx-2"></span>
+              {{'FormData.Save' | translate}}
+            </button>
+            <!-- Reset -->
+            <button type="button" class="btn btn-dark btn-sm mx-3" (click)="reset()">
+              <span class="fas fa-undo mx-2"> </span> 
+              {{'FormData.Reset' | translate}}
+            </button>
+            <!-- Delete -->
+            <!-- <button type="button" class="btn btn-danger btn-sm" *ngIf="obserUser.Seruser.id>0"
+              (click)="Delete( obserUser.Seruser.userName)">
+              <span class="fas fa-trash-alt mx-2"></span>
+              {{'FormData.Delete' | translate}} 
+            </button> -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+
+            </div>
+          </div>
+        </div>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+  </div>
+</ng-template>
+<div class="grid">
+  <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [rowData]="rowData | async"
+    [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"  animateRows
+    [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+    pagination>
+  </ag-grid-angular>
+</div>

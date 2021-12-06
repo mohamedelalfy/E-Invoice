@@ -1,0 +1,48 @@
+export interface ITransactionsheader {
+    
+    transactionSerial?: number;
+    erpTransactionID?: string;
+    documentType?: string;
+    dateTimeIssued?: Date |null;
+    transactionDescription?: string;
+    customerType?: string;
+    customerName?: string;
+    customerTaxId?: string;
+    countryName?: string;
+    governorateName?: string;
+    regionName?: string;
+    street?: string;
+    buildingNumber?: string;
+    postalCode?: string;
+    floor?: string;
+    room?: string;
+    landmark?: string;
+    additionalInformation?: string;
+    eRPCurrencyCode: string;
+    exchangeRate?: number;
+    totalSalesAmount?: number;
+    eqTotalSalesAmount?:number;
+    totalDiscountAmount?: number;
+    eqTotalDiscountAmount?:number;
+    netAmount?: number;
+    eqNetAmount?: number;
+    totalVAT?: number;
+    eqTotalVAT:number;
+    totalWHT?: number;
+    eqTotalWHT?:number;
+    extraDiscountAmount?: number;
+    eqExtraDiscountAmount?: number;
+    totalItemsDiscountAmount?: number;
+    eqTotalItemsDiscountAmount?: number;
+    totalAmount?: number;
+    eqTotalAmount?: number;
+    transactionStatusCode?: number;
+    eRPCreationDateTime?: Date |null;
+    ref?: string;
+    customerCode?: string;
+    eTAID?: string;
+    eRPTransactionNumber?:string;
+    validationNotes?:string;
+    totalTableTaxAmount?:number;
+    eqTotalTableTaxAmount?:number;
+}

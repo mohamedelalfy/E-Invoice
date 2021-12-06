@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="mb-5 text-center">
+    <!-- addNewRecord -->
+    <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
+      <i class="fas fa-plus"></i> 
+      {{'general.addNewRecord' | translate }}
+    </button>
+    <!-- updateRecord -->
+    <button type="button" id="btnoption" class="btn btn-primary btn-sm mx-3" (click)="UpdateRecord(template)">
+      <i class="fas fa-edit"></i> 
+      {{'general.updateRecord' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="grid">
+    <ag-grid-angular #agGrid style="width: 100%; height: 450px;" class="ag-theme-alpine" [rowData]="rowData | async "
+      [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" animateRows
+      [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+      (rowDoubleClicked)="onrowDoubleClicked($event)" pagination>
+    </ag-grid-angular>
+</div>
+
+<ng-template #template>
+  <div class="modal" id="myModal" role="dialog"  [style.display]=" 'block'">
+
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLongTitle"> 
+            {{'general.add'| translate}}
+          </h6>
+          <button type="button" class="btn-close" (click)="hide()" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #Groups="ngForm" (ngSubmit)="onSubmit(Groups)">
+            <div class="row">
+              <!-- start Arabic Name -->
+              <div class="col-md-6">
+                <label  for="groupName">
+                  <span  class="badge badge-pill badge-light">
+                    {{'FormData.ArName' | translate}}
+                  </span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="groupName"
+                  id="groupName" [(ngModel)]="GroupServ.Sergroup.groupName"
+                   placeholder="{{'FormData.ArName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End Arabic Name -->
+
+              <!-- start English Name -->
+              <div class="col-md-6">
+                <label  for="Latname"><span 
+                    class="badge badge-pill badge-light">{{'FormData.EnName' | translate}}</span>
+                </label>
+                <input #name="ngModel" type="text" data-dismiss="modal" class="form-control input-sm"
+                  name="groupLatName" id="groupLatName" [(ngModel)]="GroupServ.Sergroup.groupLatName"
+                  placeholder="{{'FormData.EnName' | translate}}" required>
+                <div class="text-danger" *ngIf="isSubmitted && name.invalid && name.errors?.required ">
+                  <small>{{'general.required' | translate}}</small>
+                </div>
+              </div>
+              <!-- End English Name -->
+
+              <!-- start form buttons  -->
+              <div class="col text-center mt-5">
+                <!-- Save -->
+                <button class="btn btn-success btn-sm" data-style="zoom-in">
+                  <i class="fas fa-save mx-2"></i>
+                  {{'FormData.Save' | translate}}
+                </button>
+                <!-- Reset -->
+                <button type="button" class="btn btn-dark btn-sm mx-2" (click)="reset()">
+                  <i class="fas fa-undo mx-2"> </i> 
+                  {{'FormData.Reset' | translate}}
+                </button>
+                <!-- Delete -->
+                <button type="button" class="btn btn-danger btn-sm" *ngIf="GroupServ.Sergroup.groupId>0"
+                  (click)="Delete(GroupServ.Sergroup.groupId)">
+                  <i class="fas fa-trash-alt v"></i>
+                  {{'FormData.Delete' | translate}} 
+                </button>
+
+              </div>
+              <!-- End form buttons  -->
+            </div>
+            <!--.row-->
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
