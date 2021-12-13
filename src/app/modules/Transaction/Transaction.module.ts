@@ -15,6 +15,7 @@ import { TransactionManagementComponent  } from './transaction-management/transa
 import { TransactionsReportComponent } from './transactions-report/transactions-report.component';
 import { AllRecentDocumentsComponent } from './all-recent-documents/all-recent-documents.component';
 import { AgGridCheckboxComponent } from '../shared/ag-grid-checkbox/ag-grid-checkbox-component.component';
+import { ChartmonthlyrComponent } from './chartmonthly/chartmonthlyr.component';
 
 
 
@@ -25,8 +26,8 @@ import { AgGridCheckboxComponent } from '../shared/ag-grid-checkbox/ag-grid-chec
     TransactionsReportComponent,
     AllRecentDocumentsComponent,
     AgGridCheckboxComponent,
-    TransactionMainComponent
-
+    TransactionMainComponent,
+    ChartmonthlyrComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +39,6 @@ import { AgGridCheckboxComponent } from '../shared/ag-grid-checkbox/ag-grid-chec
     TranslateModule
   ],
   providers: [DatePipe ],
-
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TransactionModule { }

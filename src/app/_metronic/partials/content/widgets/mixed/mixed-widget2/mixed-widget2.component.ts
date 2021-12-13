@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Ifilterlist } from 'src/app/_Interface/Codes/ifilterlist';
+import { IinvoiceDetails } from 'src/app/_Interface/Transaction/iinvoice-details';
+import { TransactionsheaderService } from 'src/app/_Service/Transaction/transactionsheader.service';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
 @Component({
   selector: 'app-mixed-widget2',
@@ -9,15 +12,29 @@ export class MixedWidget2Component implements OnInit {
   @Input() strokeColor: string = '';
   @Input() chartHeight: string = '';
   chartOptions: any = {};
+  Data: IinvoiceDetails;
+  ifilterlistcount:Ifilterlist
 
-  constructor() {}
+  constructor(
+    public trxh: TransactionsheaderService 
+
+  ) {
+    this.ifilterlistcount=
+    {
+      fromdate:null,
+       todate:null,
+       fromserial:'',
+       toserial:'',
+       documentType:''
+    }
+    this.trxh.getEInvoiceDetails(this.ifilterlistcount).subscribe(res=>{
+      this.Data=res;
+      console.log(res)
+    })
+  }
 
   ngOnInit(): void {
-    this.chartOptions = getChartOptions(
-      this.chartHeight,
-      this.chartColor,
-      this.strokeColor
-    );
+
   }
 }
 

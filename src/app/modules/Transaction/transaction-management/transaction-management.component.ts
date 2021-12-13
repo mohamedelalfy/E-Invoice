@@ -61,8 +61,6 @@ export class TransactionManagementComponent implements OnInit {
   @ViewChild('agGrid') agGrid: AgGridAngular;
   @ViewChild('agGrid') agGrid2: AgGridAngular;
 
-
-
   
   public Rtl = localStorage.getItem('textDir') === 'ltr' ? false : true;
   columnDefs = [
@@ -142,20 +140,16 @@ export class TransactionManagementComponent implements OnInit {
       })
       this.today = new Date().toISOString().split('T')[0];
       this.fromday = new Date().toISOString().split('T')[0];
-this.objServ.Find().subscribe(c=>{
-  this.Useexcel=c.environmentId;
-  if(c.environmentId===1)
-  {
-    this.UsingDiscount=false;
-  }
+      this.objServ.Find().subscribe(c=>{
+        this.Useexcel=c.environmentId;
+        if(c.environmentId===1)
+        {
+          this.UsingDiscount=false;
+        }
+      });
 
-
-});
       this.defaultColDef = { resizable: true };
-      this.onjtransactionStatusservice.GetAlldata().subscribe(res => this.InvoiceStatusList = res
-        );
-        
-
+      this.onjtransactionStatusservice.GetAlldata().subscribe(res => this.InvoiceStatusList = res);
 
   }
   ngOnInit(): void {

@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div>
+      <label> Select Year </label>
+
+      <select #mySelect [(ngModel)]="YearFilter" (change)="onChange(mySelect.value)"
+        class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <option selected>2021</option>
+        <option [value]="2020">2020</option>
+      </select>
+
+    </div>
+    <div class="col-md-12">
+
+      <ngx-charts-bar-vertical-2d [view]="view" [scheme]="colorScheme" [results]="ChartData" [gradient]="gradient"
+        [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+        [legendTitle]="legendTitle" (select)="onSelect($event)">
+      </ngx-charts-bar-vertical-2d>
+      
+    </div>
+  </div>
+</div>

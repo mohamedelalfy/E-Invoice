@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from './modules/auth/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgxChartsModule }from '@swimlane/ngx-charts';
 // #fake-start#
 import { FakeAPIService } from './_fake/fake-api.service';
 
@@ -39,6 +39,7 @@ function appInitializer(authService: AuthService) {
     BrowserAnimationsModule,
     HttpClientModule,
     ClipboardModule,
+    NgxChartsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

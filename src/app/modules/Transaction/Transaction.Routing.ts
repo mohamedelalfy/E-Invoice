@@ -6,6 +6,7 @@ import { TransactionMainComponent } from './transaction-main/transaction-main.co
 import { TransactionManagementComponent  } from './transaction-management/transaction-management.component';
 import { TransactionsReportComponent } from './transactions-report/transactions-report.component';
 import { AllRecentDocumentsComponent } from './all-recent-documents/all-recent-documents.component';
+import { ChartmonthlyrComponent } from './chartmonthly/chartmonthlyr.component';
 
 
 
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'AllRecentDocuments',
         component: AllRecentDocumentsComponent,
+      },
+      {
+        path: 'Chartmonthlyr',
+        component: ChartmonthlyrComponent,
       },
 
       { path: '', redirectTo: '404', pathMatch: 'full' },

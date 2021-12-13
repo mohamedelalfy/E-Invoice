@@ -15,6 +15,7 @@ export class UserInnerComponent implements OnInit, OnDestroy {
   language: LanguageFlag;
   user$: Observable<UserType>;
   langs = languages;
+  username= localStorage.getItem('username')
   private unsubscribe: Subscription[] = [];
 
   constructor(

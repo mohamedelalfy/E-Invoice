@@ -1,23 +1,21 @@
-<div class="card-header border-0 py-5" [ngClass]="'bg-' + chartColor">
+<div class="card-header border-0 py-5 my-5" [ngClass]="'bg-' + chartColor">
   <h3 class="card-title fw-bolder text-white">Sales Statistics</h3>
   <div class="card-toolbar">
     <!-- begin::Menu -->
-    <button
+    <!-- <button
       type="button"
       class="
         btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-
         border-0
-        me-n3
-      "
+        me-n3"
       data-kt-menu-trigger="click"
       data-kt-menu-placement="bottom-end"
-      data-kt-menu-flip="top-end"
-    >
+      data-kt-menu-flip="top-end">
       <span
         [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
         class="svg-icon svg-icon-2"
       ></span>
-    </button>
+    </button> -->
     <app-dropdown-menu1></app-dropdown-menu1>
     <!-- end::Menu -->
   </div>
@@ -26,11 +24,10 @@
 <!-- begin::Body -->
 <div class="card-body p-0">
   <!-- begin::Chart -->
-  <div
+  <!-- <div
     #chartRef
     class="mixed-widget-2-chart card-rounded-bottom"
-    [ngClass]="'bg-' + chartColor"
-  >
+    [ngClass]="'bg-' + chartColor">
     <apx-chart
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
@@ -46,54 +43,102 @@
       [markers]="chartOptions.markers"
       [plotOptions]="chartOptions.plotOptions"
     ></apx-chart>
-  </div>
+  </div>  -->
   <!-- end::Chart -->
   <!-- begin::Stats -->
   <div class="card-p mt-n20 position-relative">
     <!-- begin::Row -->
-    <div class="row g-0">
-      <!-- begin::Col -->
-      <div class="col bg-light-warning px-6 py-8 rounded-2 me-7 mb-7">
+    <div class="row">
+      <!-- begin::NoOfInvoices -->
+      <div class="col bg-light-warning px-6 py-8 rounded-2 me-7 mb-3">
         <span
           [inlineSVG]="'./assets/media/icons/duotune/general/gen032.svg'"
-          class="svg-icon svg-icon-3x svg-icon-warning d-block my-2"
-        ></span>
-        <a href="#" class="text-warning fw-bold fs-6"> Weekly Sales </a>
+          class="svg-icon svg-icon-3x svg-icon-warning d-block my-2">
+        </span>
+        <div  class="text-warning fw-bold fs-6"> 
+          {{'FormData.NoOfInvoices' | translate}}
+          <span class="text-danger">
+            {{  this.Data.totalNumOfIinvoice+this.Data.totalNumOfCinvoice}}
+          </span>
+        </div>
       </div>
-      <!-- end::Col -->
-      <!-- begin::Col -->
-      <div class="col bg-light-primary px-6 py-8 rounded-2 mb-7">
+      <!-- end::NoOfInvoices -->
+      <!-- begin::NoOfDebitNote -->
+      <div class="col bg-light-primary px-6 py-8 rounded-2 mb-3">
         <span
           [inlineSVG]="'./assets/media/icons/duotune/arrows/arr075.svg'"
-          class="svg-icon svg-icon-3x svg-icon-primary d-block my-2"
-        ></span>
-        <a href="#" class="text-primary fw-bold fs-6"> New Users </a>
+          class="svg-icon svg-icon-3x svg-icon-primary d-block my-2">
+      </span>
+        <div href="#" class="text-primary fw-bold fs-6"> 
+          {{'FormData.NoOfDebitNote' | translate}}
+          <span class="text-danger">{{this.Data.totalNumOfIinvoice }}</span>
+        </div>
       </div>
-      <!-- end::Col -->
-    </div>
-    <!-- end::Row -->
-    <!-- begin::Row -->
-    <div class="row g-0">
-      <!-- begin::Col -->
-      <div class="col bg-light-danger px-6 py-8 rounded-2 me-7">
+      </div>
+    <div class="row">
+      <!-- end::NoOfDebitNote -->
+      <div class="col bg-light-danger px-6 py-8 rounded-2 me-7 mb-3">
         <span
           [inlineSVG]="'./assets/media/icons/duotune/abstract/abs027.svg'"
-          class="svg-icon svg-icon-3x svg-icon-danger d-block my-2"
-        ></span>
-        <a href="#" class="text-danger fw-bold fs-6 mt-2"> Item Orders </a>
+          class="svg-icon svg-icon-3x svg-icon-danger d-block my-2">
+        </span>
+        <div href="#" class="text-danger fw-bold fs-6 mt-2"> 
+          {{'FormData.NoOfCreditNote' | translate}}
+          <span class="text-danger">{{this.Data.totalNumOfCinvoice }}</span> 
+       
+        </div>
       </div>
       <!-- end::Col -->
-      <!-- begin::Col -->
-      <div class="col bg-light-success px-6 py-8 rounded-2">
+      <!-- begin::oOfExctractedTransactions -->
+      <div class="col bg-light-success px-6 py-8 rounded-2 mb-3">
         <span
           [inlineSVG]="'./assets/media/icons/duotune/communication/com010.svg'"
-          class="svg-icon svg-icon-3x svg-icon-success d-block my-2"
-        ></span>
-        <a href="#" class="text-success fw-bold fs-6 mt-2"> Bug Reports </a>
+          class="svg-icon svg-icon-3x svg-icon-success d-block my-2">
+        </span>
+        <div class="text-success fw-bold fs-6 mt-2"> 
+          {{'FormData.NoOfExctractedTransactions' | translate}}
+
+          <span class="text-danger">
+           {{ this.Data.totalNumOfExctractinvoice}}
+         </span> 
+        </div>
       </div>
-      <!-- end::Col -->
+      <!-- end::oOfExctractedTransactions -->
+    </div>
+    <div class="row">
+    <!-- begin::oOfExctractedTransactions -->
+    <div class="col bg-light-dark px-6 py-8 rounded-2 me-7 mb-3">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/communication/com008.svg'"
+        class="svg-icon svg-icon-3x svg-icon-dark d-block my-2">
+      </span>
+      <div  class="text-dark fw-bold fs-6 mt-2"> 
+        {{'FormData.NoOfValidatedTransactions' | translate}}
+        <span class="text-danger">
+          {{this.Data.totalNumOfValidatinvoice}}
+        </span>       </div>
+    </div>
+    <!-- end::oOfExctractedTransactions -->
+      <!-- begin::oOfExctractedTransactions -->
+      <div class="col bg-light-info  px-6 py-8 rounded-2 mb-3">
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/communication/com004.svg'"
+          class="svg-icon svg-icon-3x svg-icon-info  d-block my-2">
+        </span>
+        <div  class="text-info  fw-bold fs-6 mt-2"> 
+          {{'FormData.NoOfSubmitedTransactions' | translate}}
+          <span class="text-danger">
+            {{this.Data.totalNumOfSubmitedinvoice}}
+          </span> 
+        </div>
+      </div>
+      <!-- end::oOfExctractedTransactions -->
     </div>
     <!-- end::Row -->
+
   </div>
   <!-- end::Stats -->
+
+<app-charts-widget1></app-charts-widget1>
+
 </div>

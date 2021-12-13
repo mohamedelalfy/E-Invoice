@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TransactionsheaderService } from 'src/app/_Service/Transaction/transactionsheader.service';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
 
 @Component({
@@ -7,29 +8,42 @@ import { getCSSVariableValue } from '../../../../../kt/_utils';
 })
 export class ChartsWidget1Component implements OnInit {
   chartOptions: any = {};
-  constructor() {}
+  YearFilter= (new Date()).getFullYear();
+  series: any[];
+
+  constructor(
+    public TrnsH : TransactionsheaderService
+    ) {}
 
   ngOnInit(): void {
     this.chartOptions = getChartOptions(350);
   }
+  onChange(value:string){
+    this.YearFilter= parseInt(value);
+    this.TrnsH.GetChartDataM(this.YearFilter).subscribe(res=>{
+        console.log(res);
+
+        this.series=res ;
+        console.log( this.series);
+      Object.assign(this, {this: this.series});
+    })
+    
+  }
 }
 
-function getChartOptions(height: number) {
+function getChartOptions(this: any, height:number) {
   const labelColor = getCSSVariableValue('--bs-gray-500');
   const borderColor = getCSSVariableValue('--bs-gray-200');
   const baseColor = getCSSVariableValue('--bs-primary');
   const secondaryColor = getCSSVariableValue('--bs-gray-300');
-
+  
   return {
     series: [
-      {
-        name: 'Net Profit',
-        data: [44, 55, 57, 56, 61, 58],
+   
+       {
+        data: this.series,
       },
-      {
-        name: 'Revenue',
-        data: [76, 85, 101, 98, 87, 105],
-      },
+
     ],
     chart: {
       fontFamily: 'inherit',
@@ -58,7 +72,8 @@ function getChartOptions(height: number) {
       colors: ['transparent'],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+   
+      categories:   this.series.map((x: { name: any; })=>x.name),
       axisBorder: {
         show: false,
       },

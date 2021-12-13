@@ -85,7 +85,9 @@ import { TablesWidget11Component } from './tables/tables-widget11/tables-widget1
 import { TablesWidget12Component } from './tables/tables-widget12/tables-widget12.component';
 import { TablesWidget13Component } from './tables/tables-widget13/tables-widget13.component';
 import { TablesWidget14Component } from './tables/tables-widget14/tables-widget14.component';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { ChartComponent } from './charts/chart/chart.component';
+import { ChartmonthlyComponent } from './charts/chartmonthly/chartmonthly.component';
 @NgModule({
   declarations: [
     
@@ -129,6 +131,8 @@ import { TablesWidget14Component } from './tables/tables-widget14/tables-widget1
     ChartsWidget4Component,
     ChartsWidget5Component,
     ChartsWidget6Component,
+    ChartComponent,
+
     ChartsWidget7Component,
     ChartsWidget8Component,
     FeedsWidget2Component,
@@ -162,14 +166,18 @@ import { TablesWidget14Component } from './tables/tables-widget14/tables-widget1
     TablesWidget12Component,
     TablesWidget13Component,
     TablesWidget14Component,
+    ChartmonthlyComponent
   ],
   imports: [
     CommonModule,
+
     DropdownMenusModule,
     InlineSVGModule,
     NgApexchartsModule,
     NgbDropdownModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
+
   ],
   providers: [DatePipe ],
   exports: [
@@ -212,6 +220,8 @@ import { TablesWidget14Component } from './tables/tables-widget14/tables-widget1
     ChartsWidget3Component,
     ChartsWidget4Component,
     ChartsWidget5Component,
+    ChartComponent,
+    ChartmonthlyComponent,
     ChartsWidget6Component,
     ChartsWidget7Component,
     ChartsWidget8Component,
@@ -247,5 +257,6 @@ import { TablesWidget14Component } from './tables/tables-widget14/tables-widget1
     TablesWidget13Component,
     TablesWidget14Component,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class WidgetsModule {}
