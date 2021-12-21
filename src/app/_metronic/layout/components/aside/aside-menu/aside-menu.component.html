@@ -20,20 +20,25 @@
 </div>
 
 <!-- start Security Officer -->
-<div class="menu-item menu-accordion" data-kt-menu-trigger="click" routerLinkActive="here show">
-  <span class="menu-link">
+<div class="menu-item menu-accordion" 
+    *ngFor="let link of  getParentList(); let i = index" [attr.data-index]="i" 
+    data-kt-menu-trigger="click" routerLinkActive="here show">
+  <div class="menu-link" >
     <span class="menu-icon">
       <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen025.svg'">
       </span>
     </span>
-    <span class="menu-title" data-link="/SecurityOfficer"> Security Officer </span>
+    <span class="menu-title"> {{ link.latinName  | translate }}</span>
     <span class="menu-arrow"></span>
-  </span>
+  </div>
   <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
     <div class="menu-item">
-      <a class="menu-link without-sub" routerLinkActive="active" routerLink="/SecurityOfficer/UserMaintenance">
+      <a class="menu-link without-sub" routerLinkActive="active" 
+      [routerLink]="subprog.url" *ngFor="let subprog of getchidList(link.progId)"
+      >
+      <!-- routerLink="/SecurityOfficer/UserMaintenance" -->
         <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
-        <span class="menu-title">User Maintenance</span></a>
+        <span class="menu-title">{{subprog.latinName| translate}}</span></a>
     </div>
     <div class="menu-item">
       <a class="menu-link without-sub" routerLinkActive="active" routerLink="/SecurityOfficer/GroupMaintenance">
@@ -56,8 +61,9 @@
       <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen022.svg'">
       </span>
     </span>
-    <span class="menu-title" data-link="/crafted/widgets"> ETA Master Codes </span><span
-      class="menu-arrow"></span></span>
+    <span class="menu-title" data-link=""> ETA Master Codes </span>
+    <span class="menu-arrow"></span>
+  </span>
   <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
     <div class="menu-item">
       <a class="menu-link without-sub" routerLinkActive="active" routerLink="/ETAMasterCodes/ActivityTypes">
@@ -114,7 +120,7 @@
       <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen028.svg'">
       </span>
     </span>
-    <span class="menu-title" data-link="/crafted/widgets">  Master Data & Mapping  </span><span
+    <span class="menu-title" data-link="/crafted/widgets"> Master Data & Mapping </span><span
       class="menu-arrow"></span></span>
   <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
     <div class="menu-item">
@@ -156,8 +162,7 @@
       <span class="svg-icon svg-icon-2" [inlineSVG]="'./assets/media/icons/duotune/general/gen032.svg'">
       </span>
     </span>
-    <span class="menu-title" data-link="/crafted/widgets">Transaction</span><span
-      class="menu-arrow"></span></span>
+    <span class="menu-title" data-link="/crafted/widgets">Transaction</span><span class="menu-arrow"></span></span>
   <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
     <!-- start Transaction Management -->
     <div class="menu-item">

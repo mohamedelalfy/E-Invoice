@@ -41,7 +41,7 @@ function getChartOptions(this: any, height:number) {
     series: [
    
        {
-        data: this.series,
+        data: [44, 55, 57, 56, 61, 58],
       },
 
     ],
