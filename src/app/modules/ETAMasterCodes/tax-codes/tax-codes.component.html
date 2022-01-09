@@ -1,3 +1,4 @@
+<ngx-spinner></ngx-spinner>
 <div class="container text-center mb-5">
   <button type="button" id="btnoption" class="btn btn-success btn-sm mx-3" (click)="Addnewrecord(template)">
     <i class="fas fa-plus"></i> 
@@ -39,7 +40,7 @@
               </label>
               <input #taxCode="ngModel" type="text" data-dismiss="modal" class="form-control input-sm" name="taxCode"
               id="taxCode" [(ngModel)]="STaxServ.SITax.taxCode" [readonly]="Update"
-              placeholder="{{'FormData.Code' | translate}}" required>
+                placeholder="{{'FormData.Code' | translate}}" required>
                 <div class="text-danger" *ngIf="isSubmitted && taxCode.invalid && taxCode.errors?.required ">
                   <small>{{'general.required' | translate}}</small>
                 </div>
@@ -91,7 +92,7 @@
               <div class="col text-center">
                 <!-- Save -->
                 <button class="btn btn-success btn-sm mx-3" data-style="zoom-in">
-                  <i class="fas fa-save mx-2"></i> 
+                  <i class="fas fa-save mx-2"></i>
                   {{'FormData.Save' | translate}}
                 </button>
                 <!-- Delete -->

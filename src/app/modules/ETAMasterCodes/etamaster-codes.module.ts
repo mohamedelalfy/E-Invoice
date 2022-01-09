@@ -7,6 +7,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { EtamasterCodesRouting } from './etamaster-codes.Routing';
 import { ETAMasterCodesMasterComponent} from './etamaster-codes-master/etamaster-codes-master.component';
@@ -42,7 +43,8 @@ import { RegionComponent } from './region/region.component';
     CommonModule,
     AgGridModule.withComponents([]),
     ModalModule.forRoot(),
-    TranslateModule
+    TranslateModule,
+    NgxSpinnerModule
   ]
 })
 export class ETAMasterCodesModule { }

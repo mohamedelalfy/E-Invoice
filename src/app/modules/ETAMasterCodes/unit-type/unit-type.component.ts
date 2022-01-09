@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UnitService } from 'src/app/_Service/Codes/unit.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-unit-type',
@@ -34,7 +35,8 @@ export class UnitTypeComponent implements OnInit {
   constructor(
     public UnitServ: UnitService,
     private translate: TranslateService,
-     private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private spinner: NgxSpinnerService,) {
     this.defaultColDef = { resizable: true };
 
   }
@@ -99,7 +101,7 @@ export class UnitTypeComponent implements OnInit {
   }
   onSubmit(f: NgForm) {
 
-    // this.spinner.show();
+    this.spinner.show();
     this.isSubmitted = f.invalid;
     if (!this.isSubmitted) {
 

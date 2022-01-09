@@ -48,8 +48,6 @@ export class TaxCodesComponent implements OnInit {
 
     this.UpdateRecord(this.template);
     this.Update = true;
-
-
   }
   reset() {
     this.STaxServ.SITax =
@@ -94,9 +92,11 @@ export class TaxCodesComponent implements OnInit {
       this.STaxServ.SITax = selectedRows[0];
     }
   }
+
   hide() {
     this.modalRef.hide();
   }
+
   onSubmit(f: NgForm) {
 
     // this.spinner.show();
